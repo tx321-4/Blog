@@ -11,5 +11,9 @@ module.exports = {
       .findOne({ name: name })
       .addCreatedAt()
       .exec();
+  },
+  // 更改用户密码
+  changePassword: function changePassword (userId, data) {
+    return User.update({ _id: userId }, { $set: data }).exec();
   }
 };
