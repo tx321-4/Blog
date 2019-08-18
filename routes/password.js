@@ -59,7 +59,7 @@ router.post('/', checkLogin, function (req, res, next) {
       };
       UserModel.changePassword(user._id, { name: name, password: sha1(password), gender: gender })
         .then(function () {
-          req.flash('success', '修改密码成功');
+          req.flash('success', '修改成功');
           // 修改密码成功后清空session中用户信息 重新登陆
           req.session.user = null;
           res.redirect('/signin');
