@@ -4,6 +4,7 @@
       <i class="icon bars"></i>
       <div class="menu">
         <% if (user) { %>
+          <div class="item"><%= user.name %></div>
           <a class="item" href="/posts?author=<%= user._id %>">个人主页</a>
           <a class="item" href="/password">修改密码</a>
           <div class="divider"></div>
