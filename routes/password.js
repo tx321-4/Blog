@@ -32,6 +32,7 @@ router.post('/', checkLogin, function (req, res, next) {
   const author = req.session.user._id;
   const name = req.fields.name;
   const password = req.fields.password;
+  const gender = req.fields.gender;
 
   // 校验参数
   try {
@@ -56,7 +57,7 @@ router.post('/', checkLogin, function (req, res, next) {
         req.flash('error', e.message);
         return res.redirect('back');
       };
-      UserModel.changePassword(user._id, { name: name, password: sha1(password) })
+      UserModel.changePassword(user._id, { name: name, password: sha1(password), gender: gender })
         .then(function () {
           req.flash('success', '修改密码成功');
           // 修改密码成功后清空session中用户信息 重新登陆
