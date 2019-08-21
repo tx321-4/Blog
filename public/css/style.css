@@ -83,3 +83,8 @@ a:hover {
   text-align: left;
   color: #F44336;
 }
+
+/*  分页 强制高度  */
+.ui.pagination.menu .item{
+  height: 40px;
+}

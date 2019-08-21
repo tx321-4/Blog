@@ -9,14 +9,31 @@ const checkLogin = require('../middlewares/check').checkLogin;
 //   eg: GET /posts?author=xxx
 router.get('/', function (req, res, next) {
   const author = req.query.author;
-
+  let count = 0;
+  let page = 0;
+  const size = 1;
+  // 页码
+  let pagenum = req.query.pagenum || 1;
+  // const pagenum = pagenum || 1;
   PostModel.getPosts(author)
     .then(function (posts) {
-      res.render('posts', {
-        posts: posts
-      });
-    })
-    .catch(next);
+      count = posts.length; // 数据条数
+      page = Math.ceil(count / size); // 总共的页数
+      pagenum = pagenum < 1 ? 1 : pagenum; // 页面小于1, 显示1
+      pagenum = pagenum > page ? page : pagenum;// 页码大于总页数；显示总页数
+
+      PostModel.getPostspage(author, size, pagenum)
+        .then(function (posts) {
+          // console.log(posts);
+          res.render('posts', {
+            posts: posts,
+            page: page,
+            count: count,
+            pagenum: pagenum,
+            size: size
+          });
+        }).catch(next);
+    }).catch(next);
 });
 
 // POST /posts/create 发表一篇文章

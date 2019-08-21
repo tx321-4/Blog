@@ -70,6 +70,23 @@ module.exports = {
       .contentToHtml()
       .exec();
   },
+  // 按照时间降序分页 获取所有用户问政或者某个特定用户的文章
+  getPostspage: function getPostspage (author, size, pagenum) {
+    const query = {};
+    if (author) {
+      query.author = author;
+    }
+    return Post
+      .find(query)
+      .populate({ path: 'author', model: 'User' })
+      .sort({ _id: -1 })
+      .limit(size)
+      .skip((pagenum - 1) * size)
+      .addCreatedAt()
+      .addCommentsCount()
+      .contentToHtml()
+      .exec();
+  },
 
   // 通过文章 id 给 pv 加 1
   incPv: function incPv (postId) {
