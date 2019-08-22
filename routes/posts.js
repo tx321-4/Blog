@@ -11,28 +11,41 @@ router.get('/', function (req, res, next) {
   const author = req.query.author;
   let count = 0;
   let page = 0;
-  const size = 1;
+  const size = 9;
   // 页码
   let pagenum = req.query.pagenum || 1;
+
   // const pagenum = pagenum || 1;
   PostModel.getPosts(author)
     .then(function (posts) {
-      count = posts.length; // 数据条数
-      page = Math.ceil(count / size); // 总共的页数
-      pagenum = pagenum < 1 ? 1 : pagenum; // 页面小于1, 显示1
-      pagenum = pagenum > page ? page : pagenum;// 页码大于总页数；显示总页数
+      console.log(posts.length);
+      if (posts.length > size) {
+        count = posts.length; // 数据条数
+        page = Math.ceil(count / size); // 总共的页数
+        pagenum = pagenum < 1 ? 1 : pagenum; // 页面小于1, 显示1
+        pagenum = pagenum > page ? page : pagenum;// 页码大于总页数；显示总页数
 
-      PostModel.getPostspage(author, size, pagenum)
-        .then(function (posts) {
-          // console.log(posts);
-          res.render('posts', {
-            posts: posts,
-            page: page,
-            count: count,
-            pagenum: pagenum,
-            size: size
-          });
-        }).catch(next);
+        PostModel.getPostspage(author, size, pagenum)
+          .then(function (posts) {
+            // console.log(posts);
+            res.render('posts', {
+              posts: posts,
+              page: page,
+              count: count,
+              pagenum: pagenum,
+              size: size
+            });
+          }).catch(next);
+      } else {
+        res.render('posts', {
+          posts: posts,
+          page: 1,
+          count: count,
+          pagenum: pagenum,
+          size: size
+
+        });
+      }
     }).catch(next);
 });
 
