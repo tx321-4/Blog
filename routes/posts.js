@@ -18,7 +18,7 @@ router.get('/', function (req, res, next) {
   // const pagenum = pagenum || 1;
   PostModel.getPosts(author)
     .then(function (posts) {
-      console.log(posts.length);
+      // console.log(posts.length);
       if (posts.length > size) {
         count = posts.length; // 数据条数
         page = Math.ceil(count / size); // 总共的页数
