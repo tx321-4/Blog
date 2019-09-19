@@ -53,12 +53,16 @@ router.get('/', function (req, res, next) {
 router.post('/create', checkLogin, function (req, res, next) {
   const author = req.session.user._id;
   const title = req.fields.title;
+  const tag = req.fields.tag;
   const content = req.fields.content;
 
   // 校验参数
   try {
     if (!title.length) {
       throw new Error('请填写标题');
+    }
+    if (!tag.length) {
+      throw new Error('请填写标签');
     }
     if (!content.length) {
       throw new Error('请填写内容');
@@ -71,6 +75,7 @@ router.post('/create', checkLogin, function (req, res, next) {
   let post = {
     author: author,
     title: title,
+    tag: tag,
     content: content
   };
 
@@ -139,12 +144,16 @@ router.post('/:postId/edit', checkLogin, function (req, res, next) {
   const postId = req.params.postId;
   const author = req.session.user._id;
   const title = req.fields.title;
+  const tag = req.fields.tag;
   const content = req.fields.content;
 
   // 校验参数
   try {
     if (!title.length) {
       throw new Error('请填写标题');
+    }
+    if (!tag.length) {
+      throw new Error('请填写标签');
     }
     if (!content.length) {
       throw new Error('请填写内容');
@@ -162,7 +171,7 @@ router.post('/:postId/edit', checkLogin, function (req, res, next) {
       if (post.author._id.toString() !== author.toString()) {
         throw new Error('没有权限');
       }
-      PostModel.updatePostById(postId, { title: title, content: content })
+      PostModel.updatePostById(postId, { title: title, tag: tag, content: content })
         .then(function () {
           req.flash('success', '编辑文章成功');
           // 编辑成功后跳转到上一页
