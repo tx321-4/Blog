@@ -13,7 +13,7 @@
       <div class="ui segment">
         <h3><a href="/posts/<%= post._id %>"><%= post.title %></a></h3>
         <% if (post.tag) { %>
-          <a class="ui teal label"><%= post.tag %></a>
+          <a class="ui teal label" href="/tags/<%= post.tag %>"><%= post.tag %></a>
         <% } %>
         <pre><%- post.content %></pre>
         <div>

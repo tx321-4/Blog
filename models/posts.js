@@ -88,6 +88,22 @@ module.exports = {
       .exec();
   },
 
+  // 按创建时间降序获取某个特定标签的所有文章
+  getPoststag: function getPoststag (author, tag) {
+    const query = {};
+    if (author) {
+      query.author = author;
+    }
+    return Post
+      .find({ tag: tag })
+      .populate({ path: 'author', model: 'User' })
+      .sort({ _id: -1 })
+      .addCreatedAt()
+      .addCommentsCount()
+      .contentToHtml()
+      .exec();
+  },
+
   // 通过文章 id 给 pv 加 1
   incPv: function incPv (postId) {
     return Post

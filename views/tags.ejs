@@ -1,0 +1,17 @@
+<%- include('header') %>
+
+<% if (posts.length>0) { %>
+<% posts.forEach(function (post) { %>
+  <%- include('components/post-content', { post: post }) %>
+<% }) %>
+
+<% } else { %>
+  <div class="ui grid">
+      <div class="four wide column"></div>
+    <div class="eight wide column">
+    <div class="item2">没有文章</div>
+    </div>
+  </div>
+
+  <% } %>
+<%- include('footer') %>
