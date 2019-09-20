@@ -103,6 +103,23 @@ module.exports = {
       .contentToHtml()
       .exec();
   },
+  // 按创建时间降序分页 获取某个特定标签的所有文章
+  getPoststagpage: function getPoststagpage (author, tag, size, pagenum) {
+    const query = {};
+    if (author) {
+      query.author = author;
+    }
+    return Post
+      .find({ tag: tag })
+      .populate({ path: 'author', model: 'User' })
+      .sort({ _id: -1 })
+      .limit(size)
+      .skip((pagenum - 1) * size)
+      .addCreatedAt()
+      .addCommentsCount()
+      .contentToHtml()
+      .exec();
+  },
 
   // 通过文章 id 给 pv 加 1
   incPv: function incPv (postId) {
